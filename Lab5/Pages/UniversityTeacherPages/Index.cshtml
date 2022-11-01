@@ -1,0 +1,96 @@
+﻿@page
+@model Lab5.Pages.UniversityTeacherPages.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].PatronymicName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].PositionHourlyRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].CountReadHours)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].HomeAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].Characteristics)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].PositionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].FirstSubjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].SecondSubjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UniversityTeacher[0].WorkPlace)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.UniversityTeacher) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PatronymicName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionHourlyRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CountReadHours)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HomeAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Characteristics)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionNameNavigation.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstSubjectNameNavigation.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SecondSubjectNameNavigation.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkPlaceNavigation.Id)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
