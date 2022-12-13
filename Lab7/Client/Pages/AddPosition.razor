@@ -1,0 +1,40 @@
+﻿@page "/addposition"
+@using Lab7.Shared
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+<h2>Add Position</h2>
+<div class="row">
+        <div class="col-md-6">
+                <div class="form-group">
+                        <label for="Name"> Name *</label>
+                        <input form="Name" class="form-control" @bind="@position.Name" />
+                    </div>
+            </div>
+</div>
+<div class="row">
+        <div class="col-md-4">
+                <div class="form-group">
+                        <input type="button" class="btn btn-primary" @onclick="@Save" value="Save" />
+                        <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+                    </div>
+            </div>
+</div>
+@code {
+    Position position = new Position();
+    protected override async Task OnInitializedAsync()
+    {
+    }
+    protected async Task Save()
+    {
+        var response = await Http.PostAsJsonAsync("api/Positions", @position);
+        Position? positionResponse = await response.Content.ReadFromJsonAsync<Position>();
+            if (positionResponse?.Id > 0)
+            {
+                NavigationManager.NavigateTo("positions");
+            }
+        }
+        void Cancel()
+        {
+            NavigationManager.NavigateTo("positions");
+        }
+    }

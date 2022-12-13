@@ -1,0 +1,63 @@
+﻿@page "/positions"
+@inject HttpClient _httpClient
+@inject NavigationManager NavigationManager
+
+<h1>Positions</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in positionList) {
+            <tr>
+                <td>
+                @item.Name
+                </td>
+            <td>
+                <button class="btn btn-primary"
+                        @onclick="(() => ShowPosition(item.Id))">
+                        <i class="oi oi-pencil"></i>
+                 </button>
+                 <button class="btn btn-primary"
+                        @onclick="(() => DeletePosition(item.Id))">
+                        <i class="oi oi-error"></i>
+                 </button>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<button class="btn btn-primary" @onclick="CreateNewPosition">Create New Position</button>
+
+
+
+@code {
+    List<Position> positionList = new List<Position>();
+    protected override async Task OnInitializedAsync()
+    {
+        var response = await _httpClient.GetAsync("api/Positions");
+        response.EnsureSuccessStatusCode();
+        positionList = await response.Content.ReadFromJsonAsync<List<Position>>();
+    }
+
+    void ShowPosition(int id)
+    {
+        NavigationManager.NavigateTo($"/editposition/{id}");
+    }
+
+    void CreateNewPosition()
+    {
+        NavigationManager.NavigateTo("/addposition");
+    }
+
+    void DeletePosition(int id)
+    {
+        NavigationManager.NavigateTo($"/deleteposition/{id}");
+    }
+ }

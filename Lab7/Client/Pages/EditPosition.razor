@@ -1,0 +1,43 @@
+﻿@page "/editposition/{Id}"
+@using Lab7.Shared
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+<h2>Edit Position</h2>
+<div class="row">
+        <div class="col-md-6">
+                <div class="form-group">
+                        <label for="Name"> Name *</label>
+                        <input form="Name" class="form-control" @bind="@position.Name"/>
+                    </div>
+            </div>
+</div>
+<div class="row">
+        <div class="col-md-4">
+                <div class="form-group">
+                        <input type="button" class="btn btn-primary" @onclick="@Save" value="Save" />
+                        <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />
+                    </div>
+            </div>
+</div>
+@code {
+    [Parameter]
+    public string Id{ get; set; }
+    Position? position = new Position();
+    protected override async Task OnInitializedAsync()
+    {
+        position = await Http.GetFromJsonAsync<Position>("api/Positions/" + Id);
+        }
+        protected async Task Save()
+        {
+            var response = await Http.PutAsJsonAsync("api/Positions/" + Id, @position);
+            bool positionResponse = await response.Content.ReadFromJsonAsync<bool>();
+                if (positionResponse)
+                {
+                    NavigationManager.NavigateTo("positions");
+                }
+            }
+            void Cancel()
+            {
+                NavigationManager.NavigateTo("positions");
+            }
+        }
